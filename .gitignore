@@ -1,0 +1,7 @@
+# Ignora a pasta de ambiente virtual
+venv/
+
+# Ignora arquivos de compilação do Python
+__pycache__/
+*.py[cod]
+*$py.class
