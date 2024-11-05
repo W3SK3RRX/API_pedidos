@@ -1,26 +1,26 @@
-from sqlalchemy import Column, Integer, String, Float, Boolean, JSON
-from sqlalchemy.orm import declarative_base
 from pydantic import BaseModel
-from typing import List, Dict
-from database import metadata
+from typing import List, Dict, Optional
 
-Base = declarative_base(metadata=metadata)
+class RestaurantBase(BaseModel):
+    name: str
+    address: str
+    opening_hours: Optional[str] = None
+    contact_info: Optional[str] = None
 
-class MenuItemSQL(Base):
-    __tablename__ = 'menu_items'
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
-    description = Column(String)
-    price = Column(Float)
-    available = Column(Boolean)
-    category = Column(String)
-    image_url = Column(String)
-    preparation_time = Column(Integer)
-    ingredients = Column(JSON)
-    options = Column(JSON)
+# Schema para criação de um restaurante
+class RestaurantCreate(RestaurantBase):
+    pass
+
+# Schema para leitura de um restaurante, incluindo menu_items
+class Restaurant(RestaurantBase):
+    id: int
+    menu_items: List['MenuItem'] = []
+
+    class Config:
+        orm_mode = True
 
 class MenuItem(BaseModel):
-    id: int
+    id: Optional[int] = None
     name: str
     description: str
     price: float
